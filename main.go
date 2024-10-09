@@ -34,31 +34,22 @@ func addTodos(context *gin.Context) {
 	context.IndentedJSON(http.StatusCreated, newTodo)
 }
 
-func getTodosbyId(id string) (*todo, string) {
-	for i, t := range todos {
+func getTodoID(context *gin.Context) {
+	id := context.Param("id")
+	for _, t := range todos {
 		if t.ID == id {
-			return &todos[i], "nil"
+			context.IndentedJSON(http.StatusOK, t)
+			return
 		}
 	}
-	return nil, "nil"
-}
-
-func getID(context *gin.Context) {
-	id := context.Param("id")
-	todo, err := getTodosbyId(id)
-	if err != "nil" {
-		context.IndentedJSON(http.StatusNotFound, gin.H{"message": "TODO not found"})
-		return
-	}
-
-	context.IndentedJSON(http.StatusOK, todo)
+	context.IndentedJSON(http.StatusNotFound, gin.H{"Message": "Todo not found"})
 }
 
 func main() {
 	router := gin.Default()
 
 	router.GET("/getTodos", getTodos)
-	router.GET("/Todos/:id", getID)
+	router.GET("/Todos/:id", getTodoID)
 	router.POST("/sendTodos", addTodos)
 
 	router.Run("localhost:9090")
