@@ -17,6 +17,7 @@ var todos = []todo{
 	{ID: "2", Item: "Drink Water", Completed: false},
 	{ID: "3", Item: "Read Book", Completed: true},
 	{ID: "4", Item: "Eat Food", Completed: true},
+	{ID: "5", Item: "Go for Walk", Completed: false},
 }
 
 func getTodos(context *gin.Context) {
